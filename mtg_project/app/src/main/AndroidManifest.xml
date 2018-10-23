@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CardList"
+            android:label="@string/title_activity_card_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CardDescription"
+            android:label="@string/title_activity_card_description"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

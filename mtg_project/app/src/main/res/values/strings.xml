@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Mtg_Project</string>
+    <string name="title_activity_card_list">CardList</string>
+
+
+    <string name="card_textview"></string>
+    <string name="search_button">Search</string>
+
+    <string name="add">+</string>
+    <string name="minus">-</string>
+
+    <string name="test">test</string>
+    <string name="title_activity_card_description">CardDescription</string>
+
+
 </resources>
