@@ -18,6 +18,7 @@ import java.util.List;
 
 public class CardList extends AppCompatActivity {
     ArrayList<JSONObject> cardList;
+    public static JSONObject obj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class CardList extends AppCompatActivity {
 
         Cards cards = new Cards();
         try {
-            JSONObject obj = new JSONObject(cards.loadJSONFromAsset(this));
+            obj = new JSONObject(cards.loadJSONFromAsset(this));
             cardList = cards.getCardAllCardsWithField(obj, field, tag);
         }catch(Exception e){
             e.printStackTrace();
