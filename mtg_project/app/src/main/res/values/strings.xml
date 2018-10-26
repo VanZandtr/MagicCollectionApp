@@ -9,10 +9,16 @@
     <string name="add">+</string>
     <string name="minus">-</string>
 
-    <string name="test">test</string>
+    <string name="card_rulings"></string>
+    <string name="paper_price"></string>
+    <string name="online_price"></string>
+
     <string name="img">an img</string>
 
     <string name="title_activity_card_description">CardDescription</string>
+
+    <string name="back_button">Back</string>
+
 
 
 </resources>

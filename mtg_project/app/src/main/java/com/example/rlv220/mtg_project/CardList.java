@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardList extends AppCompatActivity {
-    ArrayList<JSONObject> cardList;
+    public static ArrayList<JSONObject> cardList;
     public static JSONObject obj;
 
     @Override
@@ -25,17 +25,28 @@ public class CardList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_list);
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CardList.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         Intent intent = getIntent();
-        String field = intent.getStringExtra("field");
-        String tag = intent.getStringExtra("tag");
+        if(intent.hasExtra("field")) {
+            String field = intent.getStringExtra("field");
+            String tag = intent.getStringExtra("tag");
 
-        Cards cards = new Cards();
-        try {
-            obj = new JSONObject(cards.loadJSONFromAsset(this));
-            cardList = cards.getCardAllCardsWithField(obj, field, tag);
-        }catch(Exception e){
-            e.printStackTrace();
+            Cards cards = new Cards();
+            try {
+                obj = new JSONObject(cards.loadJSONFromAsset(this));
+                cardList = cards.getCardAllCardsWithField(obj, field, tag);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
