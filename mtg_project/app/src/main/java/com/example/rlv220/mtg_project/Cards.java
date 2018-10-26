@@ -61,13 +61,54 @@ public class Cards {
         return null;
     }
 
-    public ArrayList<JSONObject> getCardAllCardsWithField(JSONObject obj, String type, String tag){
+    public ArrayList<JSONObject> getCardAllCardsWithField(JSONObject obj, String name, String expansion, String format, String colors, String types, String cmc, String power, String toughness, String artist){
         ArrayList<JSONObject> cardList = new ArrayList<JSONObject>();
+        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<String>();
+
+        if(name != ""){
+            options.add("name");
+            values.add(name);
+        }
+        if(expansion != ""){
+            options.add("printings");
+            values.add(expansion);
+        }
+        if(format != ""){
+            options.add("format");
+            values.add(format);
+        }
+        if(colors != ""){
+            options.add("colors");
+            values.add(colors);
+        }
+        if(types != ""){
+            options.add("types");
+            values.add(types);
+        }
+        if(cmc != ""){
+            options.add("cmc");
+            values.add(cmc);
+        }
+        if(power != ""){
+            options.add("power");
+            values.add(power);
+        }
+        if(toughness != ""){
+            options.add("toughness");
+            values.add(toughness);
+        }
+        if(artist != ""){
+            options.add("artist");
+            values.add(artist);
+        }
         try {
             ArrayList<JSONObject> cards = getAllCards(obj);
             for(int i = 0; i<cards.size(); i++){
-                if (cards.get(i).get(type).equals(Integer.parseInt(tag))){
-                    cardList.add(cards.get(i));
+                for(int j = 0; j<options.size(); j++){
+                    if (cards.get(i).get(options.get(j)).equals(values.get(j))){
+                        cardList.add(cards.get(i));
+                    }
                 }
             }
         }catch(Exception e) {

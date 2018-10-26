@@ -20,5 +20,26 @@
     <string name="back_button">Back</string>
 
 
+    <string name="Name">Snapcaster Mage</string>
+    <string name="Expansion">ISD</string>
+    <string name="Format">Modern,...</string>
+    <string name="Colors">Blue</string>
+    <string name="Types">Human, Wizard</string>
+    <string name="CMC">2</string>
+    <string name="Power">2</string>
+    <string name="Toughness">1</string>
+    <string name="Artist">Volkan Baga</string>
+
+    <string name="Name_text">Name:</string>
+    <string name="Expansion_text">Expansion:</string>
+    <string name="Format_text">Format:</string>
+    <string name="Colors_text">Colors:</string>
+    <string name="Types_text">Types:</string>
+    <string name="CMC_text">CMC:</string>
+    <string name="Power_text">Power:</string>
+    <string name="Toughness_text">Toughness:</string>
+    <string name="Artist_text">Artist:</string>
+
+
 
 </resources>

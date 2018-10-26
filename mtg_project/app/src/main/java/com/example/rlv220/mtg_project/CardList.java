@@ -20,6 +20,16 @@ public class CardList extends AppCompatActivity {
     public static ArrayList<JSONObject> cardList;
     public static JSONObject obj;
 
+    String name = "";
+    String expansion = "";
+    String format = "";
+    String colors = "";
+    String types = "";
+    String cmc = "";
+    String power = "";
+    String toughness = "";
+    String artist = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +46,47 @@ public class CardList extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        if(intent.hasExtra("field")) {
-            String field = intent.getStringExtra("field");
-            String tag = intent.getStringExtra("tag");
+        if(intent.hasExtra("name")) {
+            name = intent.getStringExtra("name");
+        }
+        if(intent.hasExtra("expansion")) {
+            expansion= intent.getStringExtra("expansion");
+        }
+        if(intent.hasExtra("format")) {
+            format= intent.getStringExtra("format");
+        }
+        if(intent.hasExtra("colors")) {
+            colors= intent.getStringExtra("colors");
+        }
+        if(intent.hasExtra("types")) {
+            types= intent.getStringExtra("types");
+        }
+        if(intent.hasExtra("cmc")) {
+            cmc= intent.getStringExtra("cmc");
+        }
+        if(intent.hasExtra("power")) {
+            power= intent.getStringExtra("power");
+        }
+        if(intent.hasExtra("toughness")) {
+            toughness= intent.getStringExtra("toughness");
+        }
+        if(intent.hasExtra("artist")) {
+            artist= intent.getStringExtra("artist");
+        }
 
             Cards cards = new Cards();
             try {
-                obj = new JSONObject(cards.loadJSONFromAsset(this));
-                cardList = cards.getCardAllCardsWithField(obj, field, tag);
-            } catch (Exception e) {
+                if(intent.hasExtra("obj")){
+                    //do nothing - only loads json once
+                }
+                else {
+                    obj = new JSONObject(cards.loadJSONFromAsset(this));
+                }
+                cardList = cards.getCardAllCardsWithField(obj, name, expansion, format, colors, types, cmc, power, toughness, artist);
+
+                } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
 
         RecyclerView rView = findViewById(R.id.theView);
         //create layout manager
