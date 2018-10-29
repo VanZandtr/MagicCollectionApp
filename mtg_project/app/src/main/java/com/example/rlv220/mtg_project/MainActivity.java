@@ -54,35 +54,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CardList.class);
-                if(name.getText().toString().isEmpty() || name.getText().toString() != "") {
+                if(!name.getText().toString().isEmpty()) {
                     intent.putExtra("name", name.getText().toString());
+                    Log.d("naem", "True");
                 }
-                if(expansion.getText().toString().isEmpty() || expansion.getText().toString() != "") {
+                if(!expansion.getText().toString().isEmpty()) {
                     intent.putExtra("expansion", expansion.getText().toString());
+                    Log.d("exp", "True");
+
                 }
-                if(format.getText().toString().isEmpty() || format.getText().toString() != "") {
+                if(!format.getText().toString().isEmpty()) {
                     intent.putExtra("format", format.getText().toString());
+                    Log.d("Format", "True");
+
                 }
-                if(colors.getText().toString().isEmpty() || colors.getText().toString() != "") {
+                if(!colors.getText().toString().isEmpty()) {
                     intent.putExtra("colors", colors.getText().toString());
+                    Log.d("Colors", "True");
+
                 }
-                if(types.getText().toString().isEmpty() || types.getText().toString() != "") {
+                if(!types.getText().toString().isEmpty()) {
                     intent.putExtra("types", types.getText().toString());
+                    Log.d("Types", "True");
+
                 }
-                if(cmc.getText().toString().isEmpty() || cmc.getText().toString() != "") {
+                if(!cmc.getText().toString().isEmpty()) {
                     intent.putExtra("cmc", cmc.getText().toString());
+                    Log.d("cmc", "True");
                 }
-                if(power.getText().toString().isEmpty() || power.getText().toString() != "") {
+                if(!power.getText().toString().isEmpty()) {
                     intent.putExtra("power", power.getText().toString());
+                    Log.d("power", "True");
                 }
-                if(toughness.getText().toString().isEmpty() || toughness.getText().toString() != "") {
+                if(!toughness.getText().toString().isEmpty()) {
                     intent.putExtra("toughness", toughness.getText().toString());
+                    Log.d("tough", "True");
                 }
-                if(artist.getText().toString().isEmpty() || artist.getText().toString() != "") {
+                if(!artist.getText().toString().isEmpty()) {
                     intent.putExtra("artist", artist.getText().toString());
+                    Log.d("artist", "True");
                 }
                 if(obj != null){
                     intent.putExtra("obj", true);
+                    Log.d("obj", "True");
                 }
                 startActivity(intent);
             }

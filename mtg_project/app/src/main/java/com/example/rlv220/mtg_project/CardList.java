@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -44,6 +45,7 @@ public class CardList extends AppCompatActivity {
             }
         });
 
+        Log.d("CardList", "In Card List");
 
         Intent intent = getIntent();
         if(intent.hasExtra("name")) {
@@ -82,7 +84,9 @@ public class CardList extends AppCompatActivity {
                 else {
                     obj = new JSONObject(cards.loadJSONFromAsset(this));
                 }
-                cardList = cards.getCardAllCardsWithField(obj, name, expansion, format, colors, types, cmc, power, toughness, artist);
+                if(cardList == null) {
+                    cardList = cards.getAllCardsWithField(obj, name, expansion, format, colors, types, cmc, power, toughness, artist);
+                }
 
                 } catch (Exception e) {
                 e.printStackTrace();

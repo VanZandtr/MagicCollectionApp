@@ -61,7 +61,8 @@ public class Cards {
         return null;
     }
 
-    public ArrayList<JSONObject> getCardAllCardsWithField(JSONObject obj, String name, String expansion, String format, String colors, String types, String cmc, String power, String toughness, String artist){
+    public ArrayList<JSONObject> getAllCardsWithField(JSONObject obj, String name, String expansion, String format, String colors, String types, String cmc, String power, String toughness, String artist){
+        Log.d("Cards", "In getCardAllCardswithField");
         ArrayList<JSONObject> cardList = new ArrayList<JSONObject>();
         ArrayList<String> options = new ArrayList<String>();
         ArrayList<String> values = new ArrayList<String>();
@@ -69,45 +70,106 @@ public class Cards {
         if(name != ""){
             options.add("name");
             values.add(name);
+            Log.d("Cards", name);
         }
         if(expansion != ""){
             options.add("printings");
             values.add(expansion);
+            Log.d("Cards", expansion);
         }
         if(format != ""){
-            options.add("format");
+            options.add("legalities");
             values.add(format);
+            Log.d("Cards", format);
         }
         if(colors != ""){
             options.add("colors");
             values.add(colors);
+            Log.d("Cards", colors);
         }
         if(types != ""){
             options.add("types");
             values.add(types);
+            Log.d("Cards", types);
         }
         if(cmc != ""){
             options.add("cmc");
             values.add(cmc);
+            Log.d("Cards", cmc);
         }
         if(power != ""){
             options.add("power");
             values.add(power);
+            Log.d("Cards", power);
         }
         if(toughness != ""){
             options.add("toughness");
             values.add(toughness);
+            Log.d("Cards", toughness);
         }
         if(artist != ""){
             options.add("artist");
             values.add(artist);
+            Log.d("Cards", artist);
         }
+        Log.d("Options", "" + options.toString());
+        Log.d("Values", "" + values.toString());
         try {
             ArrayList<JSONObject> cards = getAllCards(obj);
             for(int i = 0; i<cards.size(); i++){
                 for(int j = 0; j<options.size(); j++){
-                    if (cards.get(i).get(options.get(j)).equals(values.get(j))){
-                        cardList.add(cards.get(i));
+                    try {
+                        if (cards.get(i).get(options.get(j)).equals(values.get(j))) {
+                            Log.d("Cards", "this shouldn't have worked");
+                            cardList.add(cards.get(i));
+                        }
+                        else{
+                            ArrayList<String> multipleValuesList = new ArrayList<String>();
+                            //Log.d("This should be True", "" + options.get(j) + cards.get(i).has(options.get(j)));
+                            if(cards.get(i).has(options.get(j))){
+                                JSONArray jArray = (JSONArray)cards.get(i).get(options.get(j));
+                                //Log.d("jArray", "" + jArray.toString());
+                                if (jArray != null) {
+                                    if(values.get(j).contains(",")) {
+                                        String[] split = values.get(j).split(",");
+                                        for (int x = 0; x < split.length; x++) {
+                                            multipleValuesList.add(split[x].replaceAll("\\s+","").toString());
+                                        }
+                                    }
+                                    else{
+                                        multipleValuesList.add(values.get(j).replaceAll("\\s+",""));
+                                    }
+                                    for (int k=0;k<jArray.length();k++){
+                                            try {
+                                                //Log.d("True?", "" + multipleValuesList.contains("ISD") + " " + multipleValuesList.contains("HOU")+ " " + multipleValuesList.size() + " " + multipleValuesList.get(0) +" " + multipleValuesList.get(1) + " " + multipleValuesList.toString());
+                                                //Log.d("True?", "" + jArray.get(k).equals(values.get(j)) + " " + multipleValuesList.contains(jArray.get(k).toString()));
+                                                if (jArray.get(k).equals(values.get(j)) || multipleValuesList.contains(jArray.get(k).toString())) {
+                                                    Log.d("In Cards", "this should have worked");
+                                                    cardList.add(cards.get(i));
+                                                }
+
+                                                else if (options.get(j).equals("legalities")) {
+                                                    JSONObject formatArray = jArray.getJSONObject(k);
+                                                    String contents = formatArray.get(options.get(j)).toString();
+                                                    if (contents.contains(values.get(j))) {
+                                                        cardList.add(cards.get(i));
+                                                    } else if (!multipleValuesList.isEmpty()) {
+                                                        for (int x = 0; x < multipleValuesList.size(); x++) {
+                                                            if (contents.contains(multipleValuesList.get(x))) {
+                                                                cardList.add(cards.get(i));
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }catch (Exception x){
+                                               x.printStackTrace();
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }catch(Exception e){
+                        e.printStackTrace();
                     }
                 }
             }
