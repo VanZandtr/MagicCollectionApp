@@ -25,7 +25,8 @@
         <activity
             android:name=".CardDescription"
             android:label="@string/title_activity_card_description"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MyCollectionList"></activity>
     </application>
 
 </manifest>

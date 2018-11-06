@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         toughness = findViewById(R.id.Toughness);
         artist = findViewById(R.id.Artist);
 
+        Toast.makeText(this, "Version 1.0. All search are OR operations. Searches may take a while to load. It is recommended to run search by name or via a desktop", Toast.LENGTH_LONG);
+
         Button search = findViewById(R.id.button);
         search.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,7 +24,7 @@
     <string name="Expansion">ISD</string>
     <string name="Format">Modern,...</string>
     <string name="Colors">Blue</string>
-    <string name="Types">Human, Wizard</string>
+    <string name="Types">Creature</string>
     <string name="CMC">2</string>
     <string name="Power">2</string>
     <string name="Toughness">1</string>
@@ -39,7 +39,6 @@
     <string name="Power_text">Power:</string>
     <string name="Toughness_text">Toughness:</string>
     <string name="Artist_text">Artist:</string>
-
 
 
 </resources>

@@ -14,28 +14,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rlv220.mtg_project.CardDescription;
+import com.example.rlv220.mtg_project.CardList;
+import com.example.rlv220.mtg_project.Cards;
+import com.example.rlv220.mtg_project.R;
+
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder> {
 
     static String append = "";
-    List<JSONObject> data;
+    HashMap<JSONObject, Integer> data;
 
-    public MyAdapter(List<JSONObject> data) {
+    public CollectionAdapter(HashMap<JSONObject, Integer> data) {
         this.data = data;
 
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout, viewGroup, false);
 
-        MyViewHolder vh = new MyViewHolder(v, viewGroup.getContext());
+        com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder vh = new com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder(v, viewGroup.getContext());
 
         return vh;
     }
@@ -43,10 +49,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     //MyViewHolder: the viewholder
     //i is the position of the item in your datastore
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder myViewHolder, int i) {
         try {
             //put card in textview
-            myViewHolder.tv.setText(data.get(i).getString("name").toString());
+            myViewHolder.tv.setText("" + data.get(data.keySet().toArray()[i]).toString());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -101,11 +107,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         break;
                     case R.id.plus:
                         Toast.makeText(c, "Plus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
-                        Cards currCard = new Cards();
-                        CardList.collectionList.add(currCard.getCard(CardList.obj,tv.getText().toString()).toString());
-                        Log.d("Card Added: ","" + currCard.getCard(CardList.obj,tv.getText().toString()));
-                        Log.d("List: ","" + CardList.collectionList.toString());
-
                         break;
                     case R.id.minus:
                         Toast.makeText(c, "Minus " + tv.getText().toString(), Toast.LENGTH_LONG).show();

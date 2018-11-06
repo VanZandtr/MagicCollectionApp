@@ -117,11 +117,17 @@ public class Cards {
         try {
             ArrayList<JSONObject> cards = getAllCards(obj);
             for(int i = 0; i<cards.size(); i++){
+                //Log.d("Card", "" + cards.get(i).toString());
                 for(int j = 0; j<options.size(); j++){
                     try {
                         if (cards.get(i).get(options.get(j)).equals(values.get(j))) {
-                            Log.d("Cards", "this shouldn't have worked");
+                            //Log.d("Card0", "" + cards.get(i));
                             cardList.add(cards.get(i));
+                        }
+                        else if(cards.get(i).get(options.get(j)) instanceof Integer){
+                            if(Integer.parseInt(values.get(j)) == Integer.parseInt(cards.get(i).get(options.get(j)).toString())){
+                                cardList.add(cards.get(i));
+                            }
                         }
                         else{
                             ArrayList<String> multipleValuesList = new ArrayList<String>();
@@ -141,40 +147,43 @@ public class Cards {
                                     }
                                     for (int k=0;k<jArray.length();k++){
                                             try {
-                                                //Log.d("True?", "" + multipleValuesList.contains("ISD") + " " + multipleValuesList.contains("HOU")+ " " + multipleValuesList.size() + " " + multipleValuesList.get(0) +" " + multipleValuesList.get(1) + " " + multipleValuesList.toString());
-                                                //Log.d("True?", "" + jArray.get(k).equals(values.get(j)) + " " + multipleValuesList.contains(jArray.get(k).toString()));
-                                                if (jArray.get(k).equals(values.get(j)) || multipleValuesList.contains(jArray.get(k).toString())) {
-                                                    Log.d("In Cards", "this should have worked");
-                                                    cardList.add(cards.get(i));
-                                                }
-
-                                                else if (options.get(j).equals("legalities")) {
-                                                    JSONObject formatArray = jArray.getJSONObject(k);
-                                                    String contents = formatArray.get(options.get(j)).toString();
-                                                    if (contents.contains(values.get(j))) {
-                                                        cardList.add(cards.get(i));
-                                                    } else if (!multipleValuesList.isEmpty()) {
+                                                if (options.get(j).equals("legalities")) {
+                                                    if (multipleValuesList.size() > 1) {
                                                         for (int x = 0; x < multipleValuesList.size(); x++) {
-                                                            if (contents.contains(multipleValuesList.get(x))) {
+                                                            if (jArray.getJSONObject(k).toString().contains(multipleValuesList.get(x)) && !(jArray.getJSONObject(k).toString().contains("not_legal"))) {
+                                                               // Log.d("Card3", "" + cards.get(i));
+
                                                                 cardList.add(cards.get(i));
                                                             }
                                                         }
                                                     }
+                                                    else if (jArray.getJSONObject(k).toString().contains(values.get(j)) && !(jArray.getJSONObject(k).toString().contains("not_legal"))) {
+                                                        //Log.d("Card1", "" + cards.get(i));
+                                                        //Log.d("jArray (temp)", " " + jArray.toString());
+                                                        //Log.d("k", " " + k);
+                                                        cardList.add(cards.get(i));
+                                                    }
+                                                    //Log.d("jArray (k)", " " + jArray.toString());
+                                                }
+                                                else if (jArray.get(k).equals(values.get(j)) || multipleValuesList.contains(jArray.get(k).toString())) {
+                                                   // Log.d("Card4", "" + cards.get(i));
+
+                                                    cardList.add(cards.get(i));
                                                 }
                                             }catch (Exception x){
-                                               x.printStackTrace();
+                                            // x.printStackTrace();
                                             }
                                     }
                                 }
                             }
                         }
                     }catch(Exception e){
-                        e.printStackTrace();
+                       // e.printStackTrace();
                     }
                 }
             }
         }catch(Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return cardList;
     }
@@ -196,7 +205,7 @@ public class Cards {
 
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return null;
         }
         return json;

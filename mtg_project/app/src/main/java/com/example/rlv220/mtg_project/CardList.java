@@ -14,12 +14,14 @@ import android.widget.Button;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardList extends AppCompatActivity {
+public class CardList extends AppCompatActivity implements Serializable {
     public static ArrayList<JSONObject> cardList;
     public static JSONObject obj;
+    public static ArrayList<String> collectionList = new ArrayList<String>();
 
     String name = "";
     String expansion = "";
@@ -35,6 +37,23 @@ public class CardList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_list);
+
+
+        FloatingActionButton fab2 = findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("List of Cards Added: ","" + collectionList.toString());
+                Intent intent = new Intent(CardList.this, MyCollectionList.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("LIST", collectionList);
+                intent.putExtras(bundle);
+                Log.d("List of Cards Added: ","" + collectionList.toString());
+                //collectionList.clear();
+                Log.d("List of Cards Added: ","" + collectionList.toString());
+                startActivity(intent);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +103,7 @@ public class CardList extends AppCompatActivity {
                 else {
                     obj = new JSONObject(cards.loadJSONFromAsset(this));
                 }
-                if(cardList == null) {
+                if(intent.getExtras() != null || cardList == null) {
                     cardList = cards.getAllCardsWithField(obj, name, expansion, format, colors, types, cmc, power, toughness, artist);
                 }
 
