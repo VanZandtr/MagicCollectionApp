@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,9 +29,9 @@ import java.util.Random;
 public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder> {
 
     static String append = "";
-    HashMap<JSONObject, Integer> data;
+    private static HashMap<String, Integer> data;
 
-    public CollectionAdapter(HashMap<JSONObject, Integer> data) {
+    public CollectionAdapter(HashMap<String, Integer> data) {
         this.data = data;
 
     }
@@ -39,7 +40,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
     @Override
     public com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout2, viewGroup, false);
 
         com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder vh = new com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder(v, viewGroup.getContext());
 
@@ -51,8 +52,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
     @Override
     public void onBindViewHolder(@NonNull com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder myViewHolder, int i) {
         try {
-            //put card in textview
-            myViewHolder.tv.setText("" + data.get(data.keySet().toArray()[i]).toString());
+            myViewHolder.tv.setText("" + data.keySet().toArray()[i]);
+            myViewHolder.tv2.setText("" + data.get(data.keySet().toArray()[i]).toString());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -63,11 +64,11 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
         return data.size();
     }
 
-
     //create the view holder MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //data fields are the textview and a layout
         public TextView tv;
+        public TextView tv2;
         public View layout;
         public Context c;
         Button plus;
@@ -78,6 +79,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
             super(view);
             layout = view;
             tv = view.findViewById(R.id.textView);
+            tv2 = view.findViewById(R.id.textView11);
             plus = view.findViewById(R.id.plus);
             minus = view.findViewById(R.id.minus);
             this.c = c;
@@ -91,13 +93,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
 
         @Override
         public void onClick(View view) {
+            CollectionAdapter adapter = new CollectionAdapter(data);
             //get the position of the item
             int pos = getAdapterPosition();
+            MyAdapter myAdapter;
 
             //make sure that the position is valid
             if(pos != RecyclerView.NO_POSITION){
                 Log.i("Success:", "it works");
                 switch(view.getId()){
+
                     case R.id.textView:
                         Toast.makeText(c, "" + tv.getText().toString(), Toast.LENGTH_LONG).show();
                         String name = tv.getText().toString();
@@ -105,11 +110,31 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
                         intent.putExtra("name", name);
                         view.getContext().startActivity(intent);
                         break;
+
                     case R.id.plus:
-                        Toast.makeText(c, "Plus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(c, "Adding another " + tv.getText().toString(), Toast.LENGTH_LONG).show();
+                        if(MyCollectionList.myCollection.get(tv.getText().toString()) instanceof Integer){
+                            Log.d("Adding Card", "");
+                            MyCollectionList.myCollection.put(tv.getText().toString(), MyCollectionList.myCollection.get(tv.getText().toString()) + 1);
+                            tv2.setText("" + MyCollectionList.myCollection.get(tv.getText().toString()));
+                        }
                         break;
+
                     case R.id.minus:
-                        Toast.makeText(c, "Minus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(c, "Removing a " + tv.getText().toString(), Toast.LENGTH_LONG).show();
+                        if(MyCollectionList.myCollection.get(tv.getText().toString()) == 1){
+                            Log.d("Removing Last Card", "");
+                            MyCollectionList.myCollection.remove(tv.getText().toString());
+                            data.remove(tv.getText().toString());
+                            adapter.notifyDataSetChanged();
+
+
+                        }
+                        else{//MyCollectionList.myCollection.get(tv.getText().toString()) > 1)
+                            Log.d("Removing a Card", "");
+                            MyCollectionList.myCollection.put(tv.getText().toString(), MyCollectionList.myCollection.get(tv.getText().toString()) - 1);
+                            tv2.setText("" + MyCollectionList.myCollection.get(tv.getText().toString()));
+                        }
                         break;
                 }
             }

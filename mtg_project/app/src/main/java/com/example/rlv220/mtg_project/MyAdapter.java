@@ -99,14 +99,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         intent.putExtra("name", name);
                         view.getContext().startActivity(intent);
                         break;
+
                     case R.id.plus:
                         Toast.makeText(c, "Plus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
                         Cards currCard = new Cards();
-                        CardList.collectionList.add(currCard.getCard(CardList.obj,tv.getText().toString()).toString());
+                        try {
+                            CardList.collectionList.add(currCard.getCard(CardList.obj, tv.getText().toString()).getString("name"));
+                        }catch (Exception e){}
                         Log.d("Card Added: ","" + currCard.getCard(CardList.obj,tv.getText().toString()));
                         Log.d("List: ","" + CardList.collectionList.toString());
-
                         break;
+
                     case R.id.minus:
                         Toast.makeText(c, "Minus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
                         break;

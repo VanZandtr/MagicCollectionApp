@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MyCollectionList extends AppCompatActivity {
-    HashMap<JSONObject, Integer> myCollection = new HashMap<JSONObject, Integer>(); //Card ----> quantity
+    static public HashMap<String, Integer> myCollection = new HashMap<String, Integer>(); //Card ----> quantity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +30,16 @@ public class MyCollectionList extends AppCompatActivity {
 
         for(int i = 0; i < cardsToBeAdded.size(); i ++){
             try {
-                JSONObject newObj = new JSONObject(cardsToBeAdded.get(i));
-                if(myCollection.containsKey(newObj)){
-                    myCollection.put(newObj, myCollection.get(newObj) + 1);
+                //JSONObject newObj = new JSONObject(cardsToBeAdded.get(i));
+                Log.d("Hashmap: ", "" + myCollection.keySet().toString());
+                Log.d("In the the hashmap?", "" + (myCollection.get(cardsToBeAdded.get(i))));
+                if(myCollection.get(cardsToBeAdded.get(i)) instanceof Integer){
+                    Log.d("Duplicated Card Added", "" + cardsToBeAdded.get(i));
+                    myCollection.put(cardsToBeAdded.get(i), myCollection.get(cardsToBeAdded.get(i)) + 1);
                 }
                 else{
-                    myCollection.put(newObj,1);
+                    Log.d("New Card Added", "" + cardsToBeAdded.get(i));
+                    myCollection.put(cardsToBeAdded.get(i),1);
                 }
             }catch (Exception e){
                 e.printStackTrace();

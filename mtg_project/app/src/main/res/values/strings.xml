@@ -4,6 +4,8 @@
 
 
     <string name="card_textview"></string>
+    <string name="card_quantitiy_textview"></string>
+
     <string name="search_button">Search</string>
 
     <string name="add">+</string>

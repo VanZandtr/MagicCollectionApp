@@ -87,8 +87,9 @@ public class CardDescription extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CardDescription.this, CardList.class);
-                startActivity(intent);
+                CardDescription.super.onBackPressed();
+                //Intent intent = new Intent(CardDescription.this, CardList.class);
+                //startActivity(intent);
             }
         });
     }
