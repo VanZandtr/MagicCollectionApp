@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     EditText power;
     EditText toughness;
     EditText artist;
+    Boolean test = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         power = findViewById(R.id.Power);
         toughness = findViewById(R.id.Toughness);
         artist = findViewById(R.id.Artist);
+
 
 
         Button search = findViewById(R.id.button);
@@ -102,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if(test == true){
+            name.setText("Snapcaster Mage");
+            search.performClick();
+        }
 
     }
     @Override

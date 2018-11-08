@@ -1,11 +1,13 @@
 package com.example.rlv220.mtg_project;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONObject;
 
@@ -15,11 +17,31 @@ import java.util.List;
 
 public class MyCollectionList extends AppCompatActivity {
     static public HashMap<String, Integer> myCollection = new HashMap<String, Integer>(); //Card ----> quantity
+    static RecyclerView rView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collection_list);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyCollectionList.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton fab2 = findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MyCollectionList.this, CardList.class);
+                startActivity(intent);
+            }
+        });
 
         ArrayList<String> cardsToBeAdded = (ArrayList<String>)getIntent().getStringArrayListExtra("LIST");
         Log.d("List", cardsToBeAdded.toString());
@@ -48,7 +70,7 @@ public class MyCollectionList extends AppCompatActivity {
 
 
 
-        RecyclerView rView = findViewById(R.id.theView);
+        rView = findViewById(R.id.theView);
         //create layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);

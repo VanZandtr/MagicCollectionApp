@@ -27,14 +27,16 @@ import java.util.List;
 import java.util.Random;
 
 public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder> {
+    Context context;
 
     static String append = "";
-    private static HashMap<String, Integer> data;
+    public static HashMap<String, Integer> data;
 
     public CollectionAdapter(HashMap<String, Integer> data) {
         this.data = data;
 
     }
+
 
     @NonNull
     @Override
@@ -44,19 +46,44 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
 
         com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder vh = new com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder(v, viewGroup.getContext());
 
+        context = viewGroup.getContext();
+
         return vh;
     }
 
     //MyViewHolder: the viewholder
     //i is the position of the item in your datastore
     @Override
-    public void onBindViewHolder(@NonNull com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder myViewHolder, final int i) {
         try {
             myViewHolder.tv.setText("" + data.keySet().toArray()[i]);
             myViewHolder.tv2.setText("" + data.get(data.keySet().toArray()[i]).toString());
+            myViewHolder.minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Removing a " + (String)myViewHolder.tv.getText().toString(), Toast.LENGTH_LONG).show();
+                    if(MyCollectionList.myCollection.get(((String)myViewHolder.tv.getText())) == 1){
+                        Log.d("Removing Last Card", "");
+                        MyCollectionList.myCollection.remove((String)myViewHolder.tv.getText().toString());
+                        data.remove((String)myViewHolder.tv.getText().toString());
+                        removeItem(i);
+
+
+                    }
+                    else{//MyCollectionList.myCollection.get(tv.getText().toString()) > 1)
+                        Log.d("Removing a Card", "");
+                        MyCollectionList.myCollection.put((String)myViewHolder.tv.getText().toString(), MyCollectionList.myCollection.get((String)myViewHolder.tv.getText().toString()) - 1);
+                        myViewHolder.tv2.setText("" + MyCollectionList.myCollection.get((String)myViewHolder.tv.getText().toString()));
+                    }
+                }
+            });
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void removeItem(int rowNum) {
+        notifyItemRemoved(rowNum);
     }
 
     @Override
@@ -87,16 +114,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
             //attach the listener
             tv.setOnClickListener(this);
             plus.setOnClickListener(this);
-            minus.setOnClickListener(this);
         }
-
 
         @Override
         public void onClick(View view) {
             CollectionAdapter adapter = new CollectionAdapter(data);
             //get the position of the item
             int pos = getAdapterPosition();
-            MyAdapter myAdapter;
 
             //make sure that the position is valid
             if(pos != RecyclerView.NO_POSITION){
@@ -116,23 +140,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
                         if(MyCollectionList.myCollection.get(tv.getText().toString()) instanceof Integer){
                             Log.d("Adding Card", "");
                             MyCollectionList.myCollection.put(tv.getText().toString(), MyCollectionList.myCollection.get(tv.getText().toString()) + 1);
-                            tv2.setText("" + MyCollectionList.myCollection.get(tv.getText().toString()));
-                        }
-                        break;
-
-                    case R.id.minus:
-                        Toast.makeText(c, "Removing a " + tv.getText().toString(), Toast.LENGTH_LONG).show();
-                        if(MyCollectionList.myCollection.get(tv.getText().toString()) == 1){
-                            Log.d("Removing Last Card", "");
-                            MyCollectionList.myCollection.remove(tv.getText().toString());
-                            data.remove(tv.getText().toString());
-                            adapter.notifyDataSetChanged();
-
-
-                        }
-                        else{//MyCollectionList.myCollection.get(tv.getText().toString()) > 1)
-                            Log.d("Removing a Card", "");
-                            MyCollectionList.myCollection.put(tv.getText().toString(), MyCollectionList.myCollection.get(tv.getText().toString()) - 1);
                             tv2.setText("" + MyCollectionList.myCollection.get(tv.getText().toString()));
                         }
                         break;
