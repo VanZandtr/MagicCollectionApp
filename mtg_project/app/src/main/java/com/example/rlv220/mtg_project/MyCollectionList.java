@@ -1,6 +1,7 @@
 package com.example.rlv220.mtg_project;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,16 +48,30 @@ public class MyCollectionList extends AppCompatActivity {
 
         ArrayList<String> cardsToBeAdded = (ArrayList<String>)getIntent().getStringArrayListExtra("LIST");
         Log.d("List", cardsToBeAdded.toString());
+        
 
-        //TODO -----------------------------------//load myCollection from SQLite //myCollection = ....
+        Cursor rs;
+        mydb = new DBHelper(this);
+        mydb.deleteAllRows();
+        mydb.insertRow("Test", 1);
+        mydb.insertRow("Test2", 10);
+        mydb.insertRow("Test3", 100);
+        mydb.insertRow("Test4", 1000);
+        ArrayList currentCollection = mydb.getCollection();
+        for(int i = 0; i < mydb.numberOfRows(); i++) {
+            Log.d("DB num rows", "" + mydb.numberOfRows());
+            Log.d("DB row (" + i + "): ", "" + currentCollection.get(i).toString());
 
+            rs = mydb.getData(i + 1);
 
+            if( rs != null && rs.moveToFirst() ){
+                Log.d("NAME (" + (i + 1) + "): ", "" + rs.getString(rs.getColumnIndex(DBHelper.COLLECTION_COLUMN_NAME)));
+                Log.d("QUANTITY (" +  (i + 1) + "): ", "" + rs.getString(rs.getColumnIndex(DBHelper.COLLECTION_COLUMN_QUANTITY)));
+                myCollection.put(rs.getString(rs.getColumnIndex(DBHelper.COLLECTION_COLUMN_NAME)), Integer.parseInt(rs.getString(rs.getColumnIndex(DBHelper.COLLECTION_COLUMN_QUANTITY))));
+                rs.close();
+            }
 
-
-
-
-
-
+        }
 
         for(int i = 0; i < cardsToBeAdded.size(); i ++){
             try {
@@ -70,6 +85,14 @@ public class MyCollectionList extends AppCompatActivity {
                 else{
                     Log.d("New Card Added", "" + cardsToBeAdded.get(i));
                     myCollection.put(cardsToBeAdded.get(i),1);
+                }
+
+                if(mydb.findDuplicateRow(cardsToBeAdded.get(i)) == true){
+                    //TODO ---- have this method return the id location ---- update row
+                   // mydb.updateRow()
+                }
+                else{
+                    //insert the card
                 }
             }catch (Exception e){
                 e.printStackTrace();

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     EditText power;
     EditText toughness;
     EditText artist;
-    Boolean test = false;
+    Boolean test = true;
     Boolean nameFlag;
 
     @Override
