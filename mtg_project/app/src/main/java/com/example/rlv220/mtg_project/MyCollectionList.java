@@ -18,11 +18,13 @@ import java.util.List;
 public class MyCollectionList extends AppCompatActivity {
     static public HashMap<String, Integer> myCollection = new HashMap<String, Integer>(); //Card ----> quantity
     static RecyclerView rView;
+    DBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collection_list);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,9 +48,15 @@ public class MyCollectionList extends AppCompatActivity {
         ArrayList<String> cardsToBeAdded = (ArrayList<String>)getIntent().getStringArrayListExtra("LIST");
         Log.d("List", cardsToBeAdded.toString());
 
-        //TODO -----------------------------------
-        //load myCollection from SQLite
-        //myCollection = ....
+        //TODO -----------------------------------//load myCollection from SQLite //myCollection = ....
+
+
+
+
+
+
+
+
 
         for(int i = 0; i < cardsToBeAdded.size(); i ++){
             try {
@@ -66,6 +74,7 @@ public class MyCollectionList extends AppCompatActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
+            CardList.collectionList.clear();
         }
 
 

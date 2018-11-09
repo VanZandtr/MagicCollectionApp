@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     EditText power;
     EditText toughness;
     EditText artist;
-    Boolean test = true;
+    Boolean test = false;
+    Boolean nameFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         power = findViewById(R.id.Power);
         toughness = findViewById(R.id.Toughness);
         artist = findViewById(R.id.Artist);
+        nameFlag = false;
 
 
 
@@ -56,44 +58,46 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Version 1.0. All search are OR operations. Searches may take a while to load. It is recommended to run search by name or via a desktop", Toast.LENGTH_LONG);
                 Intent intent = new Intent(MainActivity.this, CardList.class);
                 if(!name.getText().toString().isEmpty()) {
                     intent.putExtra("name", name.getText().toString());
-                    Log.d("naem", "True");
+                    Log.d("name", "True");
+                    nameFlag = true;
                 }
-                if(!expansion.getText().toString().isEmpty()) {
+                if(!expansion.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("expansion", expansion.getText().toString());
                     Log.d("exp", "True");
 
                 }
-                if(!format.getText().toString().isEmpty()) {
+                if(!format.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("format", format.getText().toString());
                     Log.d("Format", "True");
 
                 }
-                if(!colors.getText().toString().isEmpty()) {
+                if(!colors.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("colors", colors.getText().toString());
                     Log.d("Colors", "True");
 
                 }
-                if(!types.getText().toString().isEmpty()) {
+                if(!types.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("types", types.getText().toString());
                     Log.d("Types", "True");
 
                 }
-                if(!cmc.getText().toString().isEmpty()) {
+                if(!cmc.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("cmc", cmc.getText().toString());
                     Log.d("cmc", "True");
                 }
-                if(!power.getText().toString().isEmpty()) {
+                if(!power.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("power", power.getText().toString());
                     Log.d("power", "True");
                 }
-                if(!toughness.getText().toString().isEmpty()) {
+                if(!toughness.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("toughness", toughness.getText().toString());
                     Log.d("tough", "True");
                 }
-                if(!artist.getText().toString().isEmpty()) {
+                if(!artist.getText().toString().isEmpty() && nameFlag == false) {
                     intent.putExtra("artist", artist.getText().toString());
                     Log.d("artist", "True");
                 }
@@ -110,12 +114,5 @@ public class MainActivity extends AppCompatActivity {
             search.performClick();
         }
 
-    }
-    @Override
-    protected void onStart()
-    {
-        // TODO Auto-generated method stub
-        super.onStart();
-        Toast.makeText(this, "Version 1.0. All search are OR operations. Searches may take a while to load. It is recommended to run search by name or via a desktop", Toast.LENGTH_LONG);
     }
 }
