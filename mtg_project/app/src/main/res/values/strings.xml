@@ -11,6 +11,9 @@
     <string name="add">+</string>
     <string name="minus">-</string>
 
+    <string name="multiple_addRemoveCollection"></string>
+    <string name="multiple_addRemove"></string>
+
     <string name="card_rulings"></string>
     <string name="paper_price"></string>
     <string name="online_price"></string>

@@ -80,14 +80,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM collection");
     }
 
-    public boolean findDuplicateRow (String name) {
-        Boolean foundDup = false;
+    public Cursor findDuplicateRow (String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res =  db.rawQuery( "SELECT * FROM collection WHERE name="+name+"", null );
-        if(res != null){
-            foundDup = true;
-        }
-        return foundDup;
+        Cursor res =  db.rawQuery( "SELECT id FROM collection WHERE name='"+name+"'", null );
+        return res;
     }
 
     public ArrayList<String> getCollection() {

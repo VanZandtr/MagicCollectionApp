@@ -2,6 +2,7 @@ package com.example.rlv220.mtg_project;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +24,14 @@ import com.example.rlv220.mtg_project.R;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.mtg_project.CollectionAdapter.MyViewHolder> {
     Context context;
+    DBHelper mydb;
 
     static String append = "";
     public static HashMap<String, Integer> data;
@@ -50,7 +54,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
 
         return vh;
     }
-
+//TODO --- fix minus and add multiple cards at one time!!!!
     //MyViewHolder: the viewholder
     //i is the position of the item in your datastore
     @Override
@@ -62,6 +66,21 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "Removing a " + (String)myViewHolder.tv.getText().toString(), Toast.LENGTH_LONG).show();
+                    mydb = new DBHelper(context);
+                    int minus = 1;
+                    if(myViewHolder.et.getText().toString() != "" && Integer.parseInt(myViewHolder.et.getText().toString().replaceAll("[^0-9]","")) >= 0){
+                        minus = Integer.parseInt(myViewHolder.et.getText().toString().replaceAll("[^0-9]",""));
+                    }
+                    try{
+                        Cursor cursor = mydb.findDuplicateRow((String)myViewHolder.tv.getText());
+                        cursor.moveToFirst();
+                        int id = cursor.getInt(0);
+                        mydb.updateRow(id, (String)myViewHolder.tv.getText(), MyCollectionList.myCollection.get((String)myViewHolder.tv.getText()) - minus);
+                        Log.d("Card Removed from SQL", "");
+                    }catch(Exception e){
+                        Log.d("No card found", "");
+                    }
+
                     if(MyCollectionList.myCollection.get(((String)myViewHolder.tv.getText())) == 1){
                         Log.d("Removing Last Card", "");
                         MyCollectionList.myCollection.remove((String)myViewHolder.tv.getText().toString());
@@ -96,6 +115,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
         //data fields are the textview and a layout
         public TextView tv;
         public TextView tv2;
+        public EditText et;
         public View layout;
         public Context c;
         Button plus;
@@ -109,6 +129,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
             tv2 = view.findViewById(R.id.textView11);
             plus = view.findViewById(R.id.plus);
             minus = view.findViewById(R.id.minus);
+            et = view.findViewById(R.id.EditView);
             this.c = c;
 
             //attach the listener
@@ -124,6 +145,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
 
             //make sure that the position is valid
             if(pos != RecyclerView.NO_POSITION){
+                int add = 1;
                 Log.i("Success:", "it works");
                 switch(view.getId()){
 
@@ -137,9 +159,14 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
 
                     case R.id.plus:
                         Toast.makeText(c, "Adding another " + tv.getText().toString(), Toast.LENGTH_LONG).show();
+                        if(et.getText().toString() != "" && Integer.parseInt(et.getText().toString().replaceAll("[^0-9]","")) >= 0){
+                            add = Integer.parseInt(et.getText().toString().replaceAll("[^0-9]",""));
+                            et.setText("");
+                        }
+
                         if(MyCollectionList.myCollection.get(tv.getText().toString()) instanceof Integer){
                             Log.d("Adding Card", "");
-                            MyCollectionList.myCollection.put(tv.getText().toString(), MyCollectionList.myCollection.get(tv.getText().toString()) + 1);
+                            MyCollectionList.myCollection.put(tv.getText().toString(), MyCollectionList.myCollection.get(tv.getText().toString()) + add);
                             tv2.setText("" + MyCollectionList.myCollection.get(tv.getText().toString()));
                         }
                         break;

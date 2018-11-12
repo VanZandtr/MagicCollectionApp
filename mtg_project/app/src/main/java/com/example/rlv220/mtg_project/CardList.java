@@ -22,6 +22,7 @@ public class CardList extends AppCompatActivity implements Serializable {
     public static ArrayList<JSONObject> cardList;
     public static JSONObject obj;
     public static ArrayList<String> collectionList = new ArrayList<String>();
+    public static ArrayList<String> removedCollectionList = new ArrayList<String>();
 
     String name = "";
     String expansion = "";
@@ -46,11 +47,9 @@ public class CardList extends AppCompatActivity implements Serializable {
                 Log.d("List of Cards Added: ","" + collectionList.toString());
                 Intent intent = new Intent(CardList.this, MyCollectionList.class);
                 Bundle bundle = new Bundle();
-                bundle.putStringArrayList("LIST", collectionList);
+                bundle.putStringArrayList("ADD", collectionList);
+                bundle.putStringArrayList("REMOVE", removedCollectionList);
                 intent.putExtras(bundle);
-                Log.d("List of Cards Added: ","" + collectionList.toString());
-                //collectionList.clear();
-                Log.d("List of Cards Added: ","" + collectionList.toString());
                 startActivity(intent);
             }
         });

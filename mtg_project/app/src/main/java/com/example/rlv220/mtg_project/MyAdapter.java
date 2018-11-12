@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +64,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         //data fields are the textview and a layout
         public TextView tv;
         public View layout;
+        public EditText editText;
         public Context c;
         Button plus;
         Button minus;
@@ -74,6 +76,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             tv = view.findViewById(R.id.textView);
             plus = view.findViewById(R.id.plus);
             minus = view.findViewById(R.id.minus);
+            editText = view.findViewById(R.id.EditView);
             this.c = c;
 
             //attach the listener
@@ -90,7 +93,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
             //make sure that the position is valid
             if(pos != RecyclerView.NO_POSITION){
-                Log.i("Success:", "it works");
+                int add = 1;
+                int minus = 1;
                 switch(view.getId()){
                     case R.id.textView:
                         Toast.makeText(c, "" + tv.getText().toString(), Toast.LENGTH_LONG).show();
@@ -102,16 +106,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                     case R.id.plus:
                         Toast.makeText(c, "Plus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
-                        Cards currCard = new Cards();
+                        Cards currCardtoAdd = new Cards();
+                        if(editText.getText().toString() != "" && Integer.parseInt(editText.getText().toString().replaceAll("[^0-9]","")) >= 0){
+                            add = Integer.parseInt(editText.getText().toString().replaceAll("[^0-9]",""));
+                            editText.setText("");
+                        }
                         try {
-                            CardList.collectionList.add(currCard.getCard(CardList.obj, tv.getText().toString()).getString("name"));
+                            for(int i = 0; i < add; i++) {
+                                CardList.collectionList.add(currCardtoAdd.getCard(CardList.obj, tv.getText().toString()).getString("name"));
+                            }
                         }catch (Exception e){}
-                        Log.d("Card Added: ","" + currCard.getCard(CardList.obj,tv.getText().toString()));
+                        Log.d("Card Added: ","" + currCardtoAdd.getCard(CardList.obj,tv.getText().toString()));
                         Log.d("List: ","" + CardList.collectionList.toString());
                         break;
 
                     case R.id.minus:
                         Toast.makeText(c, "Minus " + tv.getText().toString(), Toast.LENGTH_LONG).show();
+                        Cards currCardtoRemove = new Cards();
+                        if(editText.getText().toString() != "" && Integer.parseInt(editText.getText().toString().replaceAll("[^0-9]","")) >= 0){
+                            minus = Integer.parseInt(editText.getText().toString().replaceAll("[^0-9]",""));
+                            editText.setText("");
+                        }
+                        try {
+                            for(int i = 0; i < minus; i++) {
+                                CardList.removedCollectionList.add(currCardtoRemove.getCard(CardList.obj, tv.getText().toString()).getString("name"));
+                            }
+                        }catch (Exception e){}
+                        Log.d("Card to  be Removed: ","" + currCardtoRemove.getCard(CardList.obj,tv.getText().toString()));
+                        Log.d("List: ","" + CardList.collectionList.toString());
                         break;
                 }
             }
