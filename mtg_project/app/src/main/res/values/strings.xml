@@ -2,6 +2,10 @@
     <string name="app_name">Mtg_Project</string>
     <string name="title_activity_card_list">CardList</string>
 
+    <string name="deck_name"></string>
+    <string name="new_deck_name"></string>
+    <string name="submit_deck_name">Submit</string>
+
 
     <string name="card_textview"></string>
     <string name="card_quantitiy_textview"></string>

@@ -39,6 +39,19 @@ public class CardList extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_list);
 
+        FloatingActionButton addToDeck = findViewById(R.id.fab4);
+        addToDeck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Adding cards to deck: ","" + collectionList.toString());
+                Intent intent = new Intent(CardList.this, DeckList.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("ADD", collectionList);
+                bundle.putStringArrayList("REMOVE", removedCollectionList);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
         FloatingActionButton fab2 = findViewById(R.id.fab2);
         fab2.setOnClickListener(new View.OnClickListener() {

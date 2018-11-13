@@ -26,7 +26,10 @@
             android:name=".CardDescription"
             android:label="@string/title_activity_card_description"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MyCollectionList"></activity>
+        <activity android:name=".MyCollectionList" />
+        <activity android:name=".DeckList" />
+        <activity android:name=".CreateNewDeck" />
+        <activity android:name=".ShowDecklist"></activity>
     </application>
 
 </manifest>

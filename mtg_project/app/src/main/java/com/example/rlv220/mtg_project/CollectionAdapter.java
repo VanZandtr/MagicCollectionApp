@@ -54,7 +54,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
 
         return vh;
     }
-//TODO --- fix minus and add multiple cards at one time!!!!
+
     //MyViewHolder: the viewholder
     //i is the position of the item in your datastore
     @Override
@@ -81,7 +81,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
                         Log.d("No card found", "");
                     }
 
-                    if(MyCollectionList.myCollection.get(((String)myViewHolder.tv.getText())) == 1){
+                    if(MyCollectionList.myCollection.get(((String)myViewHolder.tv.getText())) == 1 || minus >= MyCollectionList.myCollection.get(((String)myViewHolder.tv.getText()))){
                         Log.d("Removing Last Card", "");
                         MyCollectionList.myCollection.remove((String)myViewHolder.tv.getText().toString());
                         data.remove((String)myViewHolder.tv.getText().toString());
@@ -91,7 +91,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<com.example.rlv220.m
                     }
                     else{//MyCollectionList.myCollection.get(tv.getText().toString()) > 1)
                         Log.d("Removing a Card", "");
-                        MyCollectionList.myCollection.put((String)myViewHolder.tv.getText().toString(), MyCollectionList.myCollection.get((String)myViewHolder.tv.getText().toString()) - 1);
+                        MyCollectionList.myCollection.put((String)myViewHolder.tv.getText().toString(), MyCollectionList.myCollection.get((String)myViewHolder.tv.getText().toString()) - minus);
                         myViewHolder.tv2.setText("" + MyCollectionList.myCollection.get((String)myViewHolder.tv.getText().toString()));
                     }
                 }
