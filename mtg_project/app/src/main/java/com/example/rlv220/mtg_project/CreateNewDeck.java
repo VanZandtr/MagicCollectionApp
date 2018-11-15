@@ -1,7 +1,6 @@
 package com.example.rlv220.mtg_project;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class CreateNewDeck extends AppCompatActivity {
     DBHelper mydb;
@@ -22,7 +19,7 @@ public class CreateNewDeck extends AppCompatActivity {
         setContentView(R.layout.activity_create_new_deck);
     }
 
-    EditText newDeck = findViewById(R.id.editText);
+    EditText newDeck = findViewById(R.id.deck_name);
     Button btn = findViewById(R.id.button2);
 
 

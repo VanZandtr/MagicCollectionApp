@@ -52,7 +52,10 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return data.size();
+        if(data != null) {
+            return data.size();
+        }
+        return 0;
     }
 
 
